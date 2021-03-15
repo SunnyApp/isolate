@@ -1,3 +1,6 @@
+## [3.0.3+4]
+ * Fixing errant dart:html import
+
 ## [3.0.3+3]
  * Adding RunnerBuilder
 Adding isolate builder
