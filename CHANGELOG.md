@@ -1,3 +1,6 @@
+## [3.0.3+7]
+ * Removing extra function
+
 ## [3.0.3+6]
  * Fixing need to resolve deferred param
 
