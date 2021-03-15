@@ -1,3 +1,61 @@
+## [3.0.3+1]
+ * Adding build scripts
+Separating variable and return for easier debugging
+replace dynamic with complete generic parameters
+remove redundant parenthesis
+add singleCallbackPort variants tests
+enable strong-mode for implicit casts
+use singleResponseFuture variants with proper result nullability
+catch errors in [onTimeout]
+add singleCallbackPort and singleResponseFuture versions with proper nullability result
+introduce variable instead of force unwrap
+add use new [Capability] as fallback for isolate.resume
+[Registry.add] always non-null Capability
+fix a few usages of [singleCompletePort], callback argument isn't nullable
+make [MultiError.waitUnordered] futures elements in not nullable
+make [LoadBalancer.close] not nullable
+remove redundant parenthesis
+late port [IsolateRunner.errors] getter
+unwrap id early in _multiplexResponse
+late results, non-null errors
+introduce local variable instead of force unwrap
+introduce local variable instead of force unwrap
+remove redundant `.then((value) => value)`
+nullability in sendFutureResult
+remove `!`
+non-null run
+enable null-safety
+Migrate to GitHub Actions (#42)
+* Migrate to GitHub Actions
+
+* Delete .travis.yml
+
+* Fix infos
+
+* Fix formatting
+
+* Update test-package.yml
+fix pedantic lints (#37)
+
+make private fields final (#34)
+
+Fix bug in `IsolateRunner.kill`. (#33)
+Fix bug in `IsolateRunner.kill`.
+
+Update `LoadBalancer.runMultiple` to be properly generic.
+
+Cleanups and tweaks.
+
+Add example for registry.
+3 cleanup commits (#31)
+* Remove codereview.settings
+
+* Test on oldest supported Dart SDK
+
+* Enable and fix a number of lints
+Delete analysis_options.yaml
+Fix pkg:test dependency (#28)
+
 ## 2.0.3
 
 * Update SDK requirements.
