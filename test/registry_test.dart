@@ -7,8 +7,8 @@ library isolate.test.registry_test;
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:isolate/isolate_runner.dart';
-import 'package:isolate/registry.dart';
+import 'package:isolates/isolate_runner.dart';
+import 'package:isolates/registry.dart';
 import 'package:test/test.dart';
 
 const _ms = Duration(milliseconds: 1);

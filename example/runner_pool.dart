@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library isolate.example.runner_pool;
+library isolates.example.runner_pool;
 
 import 'dart:async' show Future;
 
-import 'package:isolate/isolate_runner.dart';
-import 'package:isolate/load_balancer.dart';
+import 'package:isolates/isolate_runner.dart';
+import 'package:isolates/load_balancer.dart';
 
 void main() {
   var N = 44;

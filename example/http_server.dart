@@ -2,15 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library isolate.example.http_server;
+library isolates.example.http_server;
 
 import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:isolate/isolate_runner.dart';
-import 'package:isolate/ports.dart';
-import 'package:isolate/runner.dart';
+import 'package:isolates/isolate_runner.dart';
+import 'package:isolates/ports.dart';
+import 'package:isolates/runner.dart';
 
 Future<Future<Object?> Function()> runHttpServer(
     Runner runner, int port, HttpListener listener) async {

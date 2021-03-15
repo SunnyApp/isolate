@@ -7,7 +7,7 @@ library isolate.test.isolaterunner_test;
 import 'dart:async' show Future;
 import 'dart:isolate' show Capability;
 
-import 'package:isolate/isolate_runner.dart';
+import 'package:isolates/isolate_runner.dart';
 import 'package:test/test.dart';
 
 const _ms = Duration(milliseconds: 1);

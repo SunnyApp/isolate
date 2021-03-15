@@ -7,7 +7,7 @@ library isolate.test.ports_test;
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:isolate/ports.dart';
+import 'package:isolates/ports.dart';
 import 'package:test/test.dart';
 
 const Duration _ms = Duration(milliseconds: 1);

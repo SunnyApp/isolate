@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Utilities for working with isolates and isolate communication.
-library isolate;
+library isolates;
 
 export 'isolate_runner.dart';
 export 'load_balancer.dart';
