@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'runner.dart';
 
@@ -18,7 +17,7 @@ class InitializerWithParam<P> {
   final RunInsideIsolateInitializer<P> init;
 
   InitializerWithParam(this.param, this.init);
-  static InitializerWithParam noParam(VoidCallback init) {
+  static InitializerWithParam noParam(FutureOr init()) {
     return InitializerWithParam(() => null, (param) => init());
   }
 
@@ -113,7 +112,7 @@ class RunnerBuilder {
   }
 
   /// Adds an initializer - this is run on each isolate that's spawned, and contains any common setup.
-  void addIsolateInitializer(VoidCallback init) {
+  void addIsolateInitializer(FutureOr init()) {
     isolateInitializers.add(InitializerWithParam.noParam(init));
   }
 }
