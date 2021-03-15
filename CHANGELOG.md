@@ -1,3 +1,6 @@
+## [3.0.3+2]
+ * Fixing package names
+
 ## [3.0.3+1]
  * Adding build scripts
 Separating variable and return for easier debugging

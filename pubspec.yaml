@@ -1,6 +1,6 @@
 name: isolates
 author: Dart Team <misc@dartlang.org>
-version: 3.0.3+1
+version: 3.0.3+2
 homepage: https://github.com/dart-lang/isolate
 description: Fork of isolates project
 environment: 
