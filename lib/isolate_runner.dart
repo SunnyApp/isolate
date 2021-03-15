@@ -77,7 +77,8 @@ class IsolateRunner implements Runner {
   static Future<IsolateRunner> build([RunnerBuilder? builder]) async {
     builder ??= RunnerBuilder.defaults();
     var initialPortGetter = SingleResponseChannel();
-    var isolate = await Isolate.spawn(_create, initialPortGetter.port,
+    var isolate = await Isolate.spawn(
+        IsolateRunnerRemote._create, initialPortGetter.port,
         debugName: builder.debugName);
 
     // Whether an uncaught exception should kill the isolate
@@ -347,15 +348,6 @@ class IsolateRunnerRemote {
         break;
     }
   }
-}
-
-/// This code is run inside the isolate when it's first created.
-///
-/// Copied from `isolate` library
-void _create(Object data) {
-  var initPort = data as SendPort;
-  var remote = IsolateRunnerRemote();
-  initPort.send(remote.commandPort);
 }
 
 Future _initializeIsolateRunner(
