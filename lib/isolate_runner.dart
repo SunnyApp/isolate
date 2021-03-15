@@ -7,6 +7,8 @@ library isolate.isolate_runner;
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:isolates/isolate_runner_builder.dart';
+
 import 'ports.dart';
 import 'runner.dart';
 import 'src/util.dart';
@@ -65,6 +67,48 @@ class IsolateRunner implements Runner {
     final result = IsolateRunner(isolate, commandPort);
     // Guarantees that setErrorsFatal has completed.
     await pingChannel.result;
+    return result;
+  }
+
+  /// Create a new [Isolate], as by [Isolate.spawn] and wrap that using a [RunnerBuilder] to
+  /// configure the underlying [Isolate]
+  ///
+  /// see [IsolateRunner.spawn]
+  /// The created isolate is set to have errors not be fatal.
+  static Future<IsolateRunner> build([RunnerBuilder? builder]) async {
+    builder ??= RunnerBuilder.defaults();
+    var initialPortGetter = SingleResponseChannel();
+    var isolate = await Isolate.spawn(_create, initialPortGetter.port,
+        debugName: builder.debugName);
+
+    // Whether an uncaught exception should kill the isolate
+    isolate.setErrorsFatal(builder.failOnError ?? true);
+    var pingChannel = SingleResponseChannel();
+    isolate.ping(pingChannel.port);
+    var commandPort = (await initialPortGetter.result as SendPort);
+    var result = IsolateRunner(isolate, commandPort);
+
+    try {
+      await _initializeIsolateRunner(builder, result);
+    } catch (e, stack) {
+      print(stack);
+      await result.close();
+      rethrow;
+    }
+
+    // Guarantees that setErrorsFatal has completed.
+    await pingChannel.result;
+
+    if (builder.autoCloseChildren) {
+      /// Use a separate channel.
+      final shutdownResponse = SingleResponseChannel(callback: (_) {
+        print(
+            '############  SHUTDOWN ${builder!.debugNameBase}  ##################');
+      });
+      Isolate.current.addOnExitListener(commandPort,
+          response: [_shutdown, shutdownResponse.port]);
+    }
+
     return result;
   }
 
@@ -253,7 +297,7 @@ class IsolateRunner implements Runner {
       var channel = SingleResponseChannel<void>();
       isolate.addOnExitListener(channel.port);
       _onExitFuture = channel.result.then(ignore);
-      ping().then<Null>((bool alive) {
+      ping().then((bool alive) {
         if (!alive) {
           channel.interrupt();
           _onExitFuture = null;
@@ -303,5 +347,31 @@ class IsolateRunnerRemote {
         sendFutureResult(Future.sync(() => function(argument)), responsePort);
         break;
     }
+  }
+}
+
+/// This code is run inside the isolate when it's first created.
+///
+/// Copied from `isolate` library
+void _create(Object data) {
+  var initPort = data as SendPort;
+  var remote = IsolateRunnerRemote();
+  initPort.send(remote.commandPort);
+}
+
+Future _initializeIsolateRunner(
+    RunnerBuilder builder, IsolateRunner target) async {
+  try {
+    for (final onCreate in builder.onIsolateCreated) {
+      await onCreate(target);
+    }
+
+    for (final init in builder.isolateInitializers) {
+      await target.run(init.init, init.param);
+    }
+  } catch (e, stack) {
+    print("Error spawning isolate: $e");
+    print(stack);
+    rethrow;
   }
 }
