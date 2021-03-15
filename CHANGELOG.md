@@ -1,3 +1,6 @@
+## [3.0.3+6]
+ * Fixing need to resolve deferred param
+
 ## [3.0.3+5]
  * --
 
