@@ -7,10 +7,9 @@ library isolate.isolate_runner;
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:isolates/isolate_runner_builder.dart';
-
 import 'ports.dart';
 import 'runner.dart';
+import 'runner_factory.dart';
 import 'src/util.dart';
 
 // Command tags. Shared between IsolateRunner and IsolateRunnerRemote.

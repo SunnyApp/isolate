@@ -14,10 +14,20 @@ typedef IsolateInitializer = FutureOr Function(Runner runner);
 typedef RunInsideIsolateInitializer<P> = FutureOr Function(P param);
 
 class InitializerWithParam<P> {
-  final P param;
+  final P Function() param;
   final RunInsideIsolateInitializer<P> init;
 
   InitializerWithParam(this.param, this.init);
+  static InitializerWithParam noParam(VoidCallback init) {
+    return InitializerWithParam(() => null, (param) => init());
+  }
+
+  static InitializerWithParam<P> of<P>(
+      P static, RunInsideIsolateInitializer<P> init) {
+    return InitializerWithParam(() => static, init);
+  }
+
+  static nullParam() => null;
 }
 
 /// Allows for setting parameters used to initialize IsolateRunner and their worker
@@ -87,13 +97,23 @@ class RunnerBuilder {
   }
 
   /// Adds an initializer - this is run on each isolate that's spawned, and contains any common setup.
-  void addIsolateInitializerWithParam<P>(
-      RunInsideIsolateInitializer<P> init, P param) {
+  /// The parameter passed to the isolate must be a valid isolate message, but can be deferred until
+  /// the time of isolate creation.
+  ///
+  /// Once the isolate is created, the value of P will not be resolved again.
+  void addIsolateInitializerWithDeferredParam<P>(
+      RunInsideIsolateInitializer<P> init, P param()) {
     isolateInitializers.add(InitializerWithParam<P>(param, init));
   }
 
   /// Adds an initializer - this is run on each isolate that's spawned, and contains any common setup.
-  void addIsolateInitializer<P>(VoidCallback init) {
-    isolateInitializers.add(InitializerWithParam(null, (_) => init()));
+  void addIsolateInitializerWithParam<P>(
+      RunInsideIsolateInitializer<P> init, P param) {
+    isolateInitializers.add(InitializerWithParam.of<P>(param, init));
+  }
+
+  /// Adds an initializer - this is run on each isolate that's spawned, and contains any common setup.
+  void addIsolateInitializer(VoidCallback init) {
+    isolateInitializers.add(InitializerWithParam.noParam(init));
   }
 }
