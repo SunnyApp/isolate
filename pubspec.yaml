@@ -1,8 +1,8 @@
-name: isolate
-version: 2.0.3
+name: isolates
+version: 3.0.3
 author: Dart Team <misc@dartlang.org>
 description: >-
-  Utility functions and classes related to the 'dart:isolate' library.
+  Fork of isolates project
 homepage: https://github.com/dart-lang/isolate
 
 environment:
