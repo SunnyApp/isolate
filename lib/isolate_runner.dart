@@ -366,7 +366,7 @@ Future _initializeIsolateRunner(
     }
 
     for (final init in builder.isolateInitializers) {
-      await target.run(init.init, init.param);
+      await target.run(init.init, init.param());
     }
   } catch (e, stack) {
     print("Error spawning isolate: $e");
