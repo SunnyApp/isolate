@@ -1,3 +1,8 @@
+## [3.0.3+8]
+ * Updating fastlane
+Gemfile.lock
+Fixing all analyzer warnings
+
 ## [3.0.3+7]
  * Removing extra function
 
