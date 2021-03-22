@@ -79,6 +79,7 @@ class RunnerBuilder {
   /// set this to false, you must call [Runner.close] on your own.
   bool autoCloseChildren = true;
 
+  // ignore: unused_element
   RunnerBuilder._();
 
   RunnerBuilder.defaults()

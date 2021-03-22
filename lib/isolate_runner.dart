@@ -82,7 +82,7 @@ class IsolateRunner implements Runner {
         debugName: builder.debugName);
 
     // Whether an uncaught exception should kill the isolate
-    isolate.setErrorsFatal(builder.failOnError ?? true);
+    isolate.setErrorsFatal(builder.failOnError);
     var pingChannel = SingleResponseChannel();
     isolate.ping(pingChannel.port);
     var commandPort = (await initialPortGetter.result as SendPort);
